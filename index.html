@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hnn 的个人博客</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+
+  <!-- 使用稳定的 CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+  <script>
+    // 如果 cdnjs 加载失败，尝试备用
+    if (typeof Typed === 'undefined') {
+      document.write('<script src="https://unpkg.com/typed.js@2.0.12/dist/typed.min.js"><\/script>');
+    }
+  </script>
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <style>
+    /* ----- 全局变量（主题） ----- */
+    :root {
+      --bg-page: #f5f7fa;
+      --text-primary: #1e1e2f;
+      --text-secondary: #3a3a4a;
+      --text-muted: #7a7a8a;
+      --card-bg: rgba(255,255,255,0.7);
+      --card-border: rgba(0,0,0,0.06);
+      --shadow: 0 20px 50px rgba(0,0,0,0.08);
+      --nav-bg: rgba(255,255,255,0.75);
+      --arrow-color: #2c2c3a;
+      --footer-color: var(--text-muted);
+      --glass-blur: blur(12px);
+      --post-bg: rgba(255,255,255,0.5);
+      --cursor-color: #82b1ff;
+    }
+    [data-theme="dark"] {
+      --bg-page: #0b0b12;
+      --text-primary: #eaeef2;
+      --text-secondary: #b0bec5;
+      --text-muted: #6a7a8a;
+      --card-bg: rgba(255,255,255,0.05);
+      --card-border: rgba(255,255,255,0.07);
+      --shadow: 0 20px 50px rgba(0,0,0,0.6);
+      --nav-bg: rgba(20,20,30,0.8);
+      --arrow-color: #eaeef2;
+      --footer-color: #4a5a6a;
+      --glass-blur: blur(16px);
+      --post-bg: rgba(255,255,255,0.03);
+      --cursor-color: #b388ff;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-page);
+      color: var(--text-primary);
+      transition: background 0.4s, color 0.3s;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ----- 导航栏 ----- */
+    .navbar {
+      position: fixed; top:0; left:0; right:0; z-index:100;
+      padding: 12px 40px;
+      background: var(--nav-bg);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .navbar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .navbar .clock {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .navbar .logo {
+      font-size: 22px; font-weight: 700;
+      background: linear-gradient(135deg, #b388ff, #82b1ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .nav-links {
+      display: flex; gap: 28px; align-items: center;
+    }
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 15px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text-primary); }
+    .theme-toggle {
+      background: none; border: 1px solid var(--card-border);
+      border-radius: 40px; padding: 6px 14px;
+      font-size: 18px; cursor: pointer;
+      background: var(--nav-bg); color: var(--text-primary);
+      transition: 0.2s; backdrop-filter: var(--glass-blur);
+    }
+    .theme-toggle:hover { transform: scale(1.05); }
+
+    /* ----- 第一屏：英雄区 ----- */
+    .home {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+    }
+    .home h1 {
+      font-size: clamp(2.6rem, 10vw, 5rem);
+      font-weight: 700;
+      background: linear-gradient(145deg, var(--text-primary), var(--text-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+    .home .subhead {
+      font-size: clamp(1.2rem, 3.5vw, 2rem);
+      color: var(--text-secondary);
+      min-height: 3.6rem;
+    }
+    .home .subhead .typed-cursor {
+      color: var(--cursor-color);
+      font-size: inherit;
+      opacity: 1;
+      animation: blink 0.8s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+    /* 向下箭头 */
+    .scroll-arrow {
+      position: absolute; bottom: 32px; left: 50%;
+      transform: translateX(-50%);
+      color: var(--arrow-color);
+      font-size: 32px;
+      opacity: 0.6;
+      animation: floatArrow 2.4s ease-in-out infinite, fadeArrow 3s ease-in-out infinite;
+      cursor: pointer;
+    }
+    @keyframes floatArrow { 0%,100%{transform:translateX(-50%) translateY(0);} 50%{transform:translateX(-50%) translateY(10px);} }
+    @keyframes fadeArrow { 0%,100%{opacity:0.2;} 50%{opacity:0.9;} }
+
+    /* ----- 内容区（文章列表） ----- */
+    .content {
+      max-width: 1100px;
+      margin: 0 auto 40px;
+      padding: 0 40px 20px;
+      width: 100%;
+    }
+    .content h2 {
+      font-size: 28px;
+      font-weight: 600;
+      margin: 30px 0 20px;
+      color: var(--text-primary);
+      border-bottom: 2px solid var(--card-border);
+      padding-bottom: 12px;
+    }
+    .post-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .post-item {
+      background: var(--post-bg);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 24px 30px;
+      box-shadow: var(--shadow);
+      transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+    }
+    .post-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.12);
+    }
+    .post-item h3 {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .post-item h3 a {
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .post-item h3 a:hover {
+      color: #82b1ff;
+      text-decoration: underline;
+    }
+    .post-item .meta {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .post-item p {
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+    .post-item .readmore {
+      display: inline-block;
+      margin-top: 10px;
+      color: #82b1ff;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .post-item .readmore:hover {
+      border-bottom-color: #82b1ff;
+    }
+
+    /* ----- 底部页脚 ----- */
+    .footer {
+      text-align: center;
+      padding: 18px 20px 14px;
+      font-size: 14px;
+      color: var(--footer-color);
+      border-top: 1px solid var(--card-border);
+      background: var(--nav-bg);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      transition: background 0.3s;
+    }
+    .footer .stats {
+      display: flex; justify-content: center; gap: 30px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+    .footer .stats span { color: var(--text-muted); }
+    .footer .stats strong { color: var(--text-primary); margin-left: 4px; }
+    .footer .legal {
+      margin-top: 4px;
+      font-size: 13px;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+    }
+
+    /* 回退静态文字（当 Typed 未加载时显示） */
+    .fallback-text {
+      display: none;
+      font-size: inherit;
+      color: var(--text-secondary);
+    }
+    .no-typed .fallback-text {
+      display: inline;
+    }
+    .no-typed #typed-words {
+      display: none;
+    }
+
+    /* ----- 响应式 ----- */
+    @media (max-width: 700px) {
+      .navbar { padding: 10px 20px; flex-direction: column; align-items: stretch; }
+      .navbar-left { justify-content: center; }
+      .nav-links { justify-content: center; gap: 16px; flex-wrap: wrap; }
+      .content { padding: 0 18px; }
+      .post-item { padding: 18px 20px; }
+      .home h1 { font-size: 2.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== 导航 ===== -->
+  <nav class="navbar">
+    <div class="navbar-left">
+      <span class="clock" id="liveClock">----年--月--日 --:--:--</span>
+      <span class="logo">✦ Hnn</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">首页</a>
+      <a href="about.html">关于</a>
+      <a href="nav.html">导航</a>
+      <button class="theme-toggle" id="themeToggle">🌓</button>
+    </div>
+  </nav>
+
+  <!-- ===== 第一屏 ===== -->
+  <section class="home" id="home">
+    <h1>Hnn 的个人博客</h1>
+    <div class="subhead">
+      <span id="typed-words"></span>
+      <span class="fallback-text">独立自主 · 自力更生</span>
+    </div>
+    <div class="scroll-arrow" onclick="document.getElementById('content').scrollIntoView({behavior:'smooth'})">
+      ⌄
+    </div>
+  </section>
+
+  <!-- ===== 第二屏：文章列表 ===== -->
+  <section class="content" id="content">
+    <h2>📝 最新文章</h2>
+    <div class="post-list">
+      <!-- 8篇文章，内容同之前，为了简洁此处省略，但实际保留完整 -->
+      <article class="post-item">
+        <h3><a href="https://pages.github.com/" target="_blank" rel="noopener">从零搭建个人博客</a></h3>
+        <div class="meta">2026-06-27 · 5分钟阅读</div>
+        <p>详细记录如何利用 GitHub Pages 和 Hexo 搭建属于你自己的免费博客，从注册到部署全流程。</p>
+        <a href="https://pages.github.com/" target="_blank" rel="noopener" class="readmore">阅读全文 →</a>
+      </article>
+      <article class="post-item">
+        <h3><a href="https://github.com/explore" target="_blank" rel="noopener">独立开发者工具箱</a></h3>
+        <div class="meta">2026-06-20 · 8分钟阅读</div>
+        <p>精选 10 款提升开发效率的实用工具，涵盖设计、代码、测试和部署环节。</p>
+        <a href="https://github.com/explore" target="_blank" rel="noopener" class="readmore">阅读全文 →</a>
+      </article>
+      <article class="post-item">
+        <h3><a href="https://book.douban.com/subject/30320237/" target="_blank" rel="noopener">阅读笔记 · 反脆弱</a></h3>
+        <div class="meta">2026-06-12 · 6分钟阅读</div>
+        <p>塔勒布《反脆弱》核心思想解读：如何在不确定的世界中获益，拥抱波动性。</p>
+        <a href="https://book.douban.com/subject/30320237/" target="_blank" rel="noopener" class="readmore">阅读全文 →</a>
+      </article>
+      <article class="post-item">
+        <h3><a href="https://pages.github.com/" target="_blank" rel="noopener">用 GitHub Pages 托管网站</a></h3>
+        <div class="meta">2026-06-05 · 4分钟阅读</div>
+        <p>无需服务器，利用 GitHub Pages 免费托管静态网站，支持自定义域名和 HTTPS。</p>
+        <a href="https://pages.github.com/" target="_blank" rel="noopener" class="readmore">阅读全文 →</a>
+      </article>
+      <article class="post-item">
+        <h3><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/async_function" target="_blank" rel="noopener">JavaScript 异步编程指南</a></h3>
+        <div class="meta">2026-05-28 · 10分钟阅读</div>
+        <p>深入理解 Promise、async/await 和事件循环，写出更优雅的异步代码。</p>
+        <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/async_function" target="_blank" rel="noopener" class="readmore">阅读全文 →</a>
+      </article>
+      <article class="post-item">
+        <h3><a href="https://css-tricks.com/snippets/css/complete-guide-grid/" target="_blank" rel="noopener">CSS 网格布局完全指南</a></h3>
+        <div class="meta">2026-05-20 · 7分钟阅读</div>
+        <p>从基础到进阶，全面掌握 CSS Grid 布局，轻松实现复杂页面结构。</p>
+        <a href="https://css-tricks.com/snippets/css/complete-guide-grid/" target="_blank" rel="noopener" class="readmore">阅读全文 →</a>
+      </article>
+      <article class="post-item">
+        <h3><a href="https://react.dev/learn" target="_blank" rel="noopener">React 官方入门教程</a></h3>
+        <div class="meta">2026-05-15 · 12分钟阅读</div>
+        <p>React 官方最新文档，从组件、状态到 Hooks，适合新手快速上手。</p>
+        <a href="https://react.dev/learn" target="_blank" rel="noopener" class="readmore">阅读全文 →</a>
+      </article>
+      <article class="post-item">
+        <h3><a href="https://www.freecodecamp.org/news/how-to-build-a-pwa-from-scratch/" target="_blank" rel="noopener">渐进式 Web 应用 (PWA) 入门</a></h3>
+        <div class="meta">2026-05-08 · 9分钟阅读</div>
+        <p>手把手教你构建一个可离线、可安装的 PWA，提升用户体验。</p>
+        <a href="https://www.freecodecamp.org/news/how-to-build-a-pwa-from-scratch/" target="_blank" rel="noopener" class="readmore">阅读全文 →</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== 底部页脚 ===== -->
+  <footer class="footer">
+    <div class="stats">
+      <span>👁️ 访问人数：<strong id="site_pv">0</strong></span>
+      <span>📄 浏览次数：<strong id="page_pv">0</strong></span>
+    </div>
+    <div>© 2026 Hnn · 未经许可，违者必究</div>
+  </footer>
+
+  <script>
+    // ---------- 1. 动态时钟 ----------
+    function updateClock() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('liveClock').textContent =
+        `${year}年${month}月${day}日 ${hours}:${minutes}:${seconds}`;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // ---------- 2. 打字特效（仅两句，无重叠） ----------
+    let typedInstance = null;
+
+    function initTyped() {
+      // 如果已经初始化，先销毁
+      if (typedInstance) {
+        typedInstance.destroy();
+        typedInstance = null;
+      }
+
+      if (typeof Typed === 'undefined') {
+        document.body.classList.add('no-typed');
+        return;
+      }
+
+      try {
+        typedInstance = new Typed('#typed-words', {
+          strings: [
+            '独立自主 · 自力更生',
+            '不忘初心 · 牢记使命'
+          ],
+          typeSpeed: 80,
+          backSpeed: 50,
+          backDelay: 1800,
+          startDelay: 300,
+          loop: true,
+          showCursor: true,
+          cursorChar: '|',
+          autoInsertCss: false
+        });
+        console.log('✅ 打字特效已启动（两句）');
+      } catch (e) {
+        console.warn('Typed 初始化失败', e);
+        document.body.classList.add('no-typed');
+      }
+    }
+
+    // 等待 DOM 加载
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initTyped);
+    } else {
+      initTyped();
+    }
+
+    // 如果 2 秒后仍未启动，再尝试一次（防止 CDN 延迟）
+    setTimeout(function() {
+      if (!document.querySelector('#typed-words .typed-cursor') && typeof Typed !== 'undefined') {
+        initTyped();
+      }
+    }, 2000);
+
+    // ---------- 3. 深色模式（localStorage） ----------
+    const toggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    html.setAttribute('data-theme', savedTheme);
+    toggle.textContent = savedTheme === 'dark' ? '☀️' : '🌓';
+
+    toggle.addEventListener('click', () => {
+      const cur = html.getAttribute('data-theme');
+      const next = cur === 'light' ? 'dark' : 'light';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      toggle.textContent = next === 'dark' ? '☀️' : '🌓';
+    });
+
+    // ---------- 4. 不蒜子统计 ----------
+    function updateBusuanzi() {
+      const site = document.getElementById('busuanzi_value_site_pv');
+      const page = document.getElementById('busuanzi_value_page_pv');
+      if (site) document.getElementById('site_pv').textContent = site.innerHTML || '0';
+      if (page) document.getElementById('page_pv').textContent = page.innerHTML || '0';
+    }
+    setTimeout(updateBusuanzi, 2000);
+    setInterval(updateBusuanzi, 5000);
+  </script>
+</body>
+</html>
