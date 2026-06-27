@@ -6,7 +6,6 @@
   <title>关于 · Hnn</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <style>
-    /* ----- 与 index 完全相同的全局变量和基础样式 ----- */
     :root {
       --bg-page: #f5f7fa; --text-primary: #1e1e2f; --text-secondary: #3a3a4a;
       --text-muted: #7a7a8a; --card-bg: rgba(255,255,255,0.7);
@@ -64,7 +63,8 @@
     .theme-toggle:hover { transform: scale(1.05); }
 
     .about-container {
-      flex: 1; max-width: 880px; margin: 100px auto 40px;
+      flex: 1; max-width: 880px;
+      margin: 120px auto 40px;  /* 原 100px → 120px，避开导航栏 */
       padding: 0 40px 20px; width: 100%;
     }
     .about-card {
@@ -99,7 +99,7 @@
       .navbar { padding: 10px 20px; flex-direction: column; align-items: stretch; }
       .navbar-left { justify-content: center; }
       .nav-links { justify-content: center; gap: 16px; flex-wrap: wrap; }
-      .about-container { padding: 0 18px; margin-top: 80px; }
+      .about-container { padding: 0 18px; margin-top: 100px; }
       .about-card { padding: 28px 20px; border-radius: 32px; }
     }
   </style>
@@ -141,7 +141,6 @@
   </footer>
 
   <script>
-    // 时钟
     function updateClock() {
       const now = new Date();
       const year = now.getFullYear();
@@ -156,7 +155,6 @@
     updateClock();
     setInterval(updateClock, 1000);
 
-    // 深色模式同步
     const toggle = document.getElementById('themeToggle');
     const html = document.documentElement;
     const savedTheme = localStorage.getItem('theme') || 'light';
