@@ -5,19 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hnn 的个人博客</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-
-  <!-- 使用稳定的 CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
   <script>
-    // 如果 cdnjs 加载失败，尝试备用
     if (typeof Typed === 'undefined') {
       document.write('<script src="https://unpkg.com/typed.js@2.0.12/dist/typed.min.js"><\/script>');
     }
   </script>
-
-  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   <style>
-    /* ----- 全局变量（主题） ----- */
+    /* ----- 全局变量 ----- */
     :root {
       --bg-page: #f5f7fa;
       --text-primary: #1e1e2f;
@@ -114,7 +109,7 @@
     }
     .theme-toggle:hover { transform: scale(1.05); }
 
-    /* ----- 第一屏：英雄区 ----- */
+    /* ----- 第一屏 ----- */
     .home {
       height: 100vh;
       display: flex;
@@ -146,8 +141,6 @@
       animation: blink 0.8s infinite;
     }
     @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
-
-    /* 向下箭头 */
     .scroll-arrow {
       position: absolute; bottom: 32px; left: 50%;
       transform: translateX(-50%);
@@ -231,7 +224,7 @@
       border-bottom-color: #82b1ff;
     }
 
-    /* ----- 底部页脚 ----- */
+    /* ----- 底部页脚（无统计） ----- */
     .footer {
       text-align: center;
       padding: 18px 20px 14px;
@@ -243,31 +236,11 @@
       -webkit-backdrop-filter: var(--glass-blur);
       transition: background 0.3s;
     }
-    .footer .stats {
-      display: flex; justify-content: center; gap: 30px;
-      margin-bottom: 6px;
-      flex-wrap: wrap;
-    }
-    .footer .stats span { color: var(--text-muted); }
-    .footer .stats strong { color: var(--text-primary); margin-left: 4px; }
     .footer .legal {
-      margin-top: 4px;
+      margin-top: 0;
       font-size: 13px;
       color: var(--text-muted);
       letter-spacing: 0.5px;
-    }
-
-    /* 回退静态文字（当 Typed 未加载时显示） */
-    .fallback-text {
-      display: none;
-      font-size: inherit;
-      color: var(--text-secondary);
-    }
-    .no-typed .fallback-text {
-      display: inline;
-    }
-    .no-typed #typed-words {
-      display: none;
     }
 
     /* ----- 响应式 ----- */
@@ -302,18 +275,16 @@
     <h1>Hnn 的个人博客</h1>
     <div class="subhead">
       <span id="typed-words"></span>
-      <span class="fallback-text">独立自主 · 自力更生</span>
     </div>
     <div class="scroll-arrow" onclick="document.getElementById('content').scrollIntoView({behavior:'smooth'})">
       ⌄
     </div>
   </section>
 
-  <!-- ===== 第二屏：文章列表 ===== -->
+  <!-- ===== 文章列表 ===== -->
   <section class="content" id="content">
     <h2>📝 最新文章</h2>
     <div class="post-list">
-      <!-- 8篇文章，内容同之前，为了简洁此处省略，但实际保留完整 -->
       <article class="post-item">
         <h3><a href="https://pages.github.com/" target="_blank" rel="noopener">从零搭建个人博客</a></h3>
         <div class="meta">2026-06-27 · 5分钟阅读</div>
@@ -367,15 +338,11 @@
 
   <!-- ===== 底部页脚 ===== -->
   <footer class="footer">
-    <div class="stats">
-      <span>👁️ 访问人数：<strong id="site_pv">0</strong></span>
-      <span>📄 浏览次数：<strong id="page_pv">0</strong></span>
-    </div>
-    <div>© 2026 Hnn · 未经许可，违者必究</div>
+    <div class="legal">© 2026 Hnn · 未经许可，违者必究</div>
   </footer>
 
   <script>
-    // ---------- 1. 动态时钟 ----------
+    // ---------- 时钟 ----------
     function updateClock() {
       const now = new Date();
       const year = now.getFullYear();
@@ -390,64 +357,35 @@
     updateClock();
     setInterval(updateClock, 1000);
 
-    // ---------- 2. 打字特效（仅两句，无重叠） ----------
+    // ---------- 打字特效（仅两句） ----------
     let typedInstance = null;
-
     function initTyped() {
-      // 如果已经初始化，先销毁
-      if (typedInstance) {
-        typedInstance.destroy();
-        typedInstance = null;
-      }
-
-      if (typeof Typed === 'undefined') {
-        document.body.classList.add('no-typed');
-        return;
-      }
-
+      if (typedInstance) { typedInstance.destroy(); typedInstance = null; }
+      if (typeof Typed === 'undefined') return;
       try {
         typedInstance = new Typed('#typed-words', {
-          strings: [
-            '独立自主 · 自力更生',
-            '不忘初心 · 牢记使命'
-          ],
-          typeSpeed: 80,
-          backSpeed: 50,
-          backDelay: 1800,
-          startDelay: 300,
-          loop: true,
-          showCursor: true,
-          cursorChar: '|',
-          autoInsertCss: false
+          strings: ['独立自主 · 自力更生', '不忘初心 · 牢记使命'],
+          typeSpeed: 80, backSpeed: 50, backDelay: 1800,
+          startDelay: 300, loop: true, showCursor: true,
+          cursorChar: '|', autoInsertCss: false
         });
-        console.log('✅ 打字特效已启动（两句）');
-      } catch (e) {
-        console.warn('Typed 初始化失败', e);
-        document.body.classList.add('no-typed');
-      }
+      } catch (e) {}
     }
-
-    // 等待 DOM 加载
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', initTyped);
-    } else {
-      initTyped();
-    }
-
-    // 如果 2 秒后仍未启动，再尝试一次（防止 CDN 延迟）
+    } else { initTyped(); }
     setTimeout(function() {
       if (!document.querySelector('#typed-words .typed-cursor') && typeof Typed !== 'undefined') {
         initTyped();
       }
     }, 2000);
 
-    // ---------- 3. 深色模式（localStorage） ----------
+    // ---------- 深色模式同步 ----------
     const toggle = document.getElementById('themeToggle');
     const html = document.documentElement;
     const savedTheme = localStorage.getItem('theme') || 'light';
     html.setAttribute('data-theme', savedTheme);
     toggle.textContent = savedTheme === 'dark' ? '☀️' : '🌓';
-
     toggle.addEventListener('click', () => {
       const cur = html.getAttribute('data-theme');
       const next = cur === 'light' ? 'dark' : 'light';
@@ -455,16 +393,6 @@
       localStorage.setItem('theme', next);
       toggle.textContent = next === 'dark' ? '☀️' : '🌓';
     });
-
-    // ---------- 4. 不蒜子统计 ----------
-    function updateBusuanzi() {
-      const site = document.getElementById('busuanzi_value_site_pv');
-      const page = document.getElementById('busuanzi_value_page_pv');
-      if (site) document.getElementById('site_pv').textContent = site.innerHTML || '0';
-      if (page) document.getElementById('page_pv').textContent = page.innerHTML || '0';
-    }
-    setTimeout(updateBusuanzi, 2000);
-    setInterval(updateBusuanzi, 5000);
   </script>
 </body>
 </html>

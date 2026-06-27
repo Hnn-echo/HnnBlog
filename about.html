@@ -5,138 +5,100 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>关于 · Hnn</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   <style>
-    /* 完全相同的样式（为了独立，完整复制） */
+    /* ----- 与 index 完全相同的全局变量和基础样式 ----- */
     :root {
-      --bg-page: #f5f7fa;
-      --text-primary: #1e1e2f;
-      --text-secondary: #3a3a4a;
-      --text-muted: #7a7a8a;
-      --card-bg: rgba(255,255,255,0.7);
-      --card-border: rgba(0,0,0,0.06);
-      --shadow: 0 20px 50px rgba(0,0,0,0.08);
-      --nav-bg: rgba(255,255,255,0.75);
-      --footer-color: var(--text-muted);
+      --bg-page: #f5f7fa; --text-primary: #1e1e2f; --text-secondary: #3a3a4a;
+      --text-muted: #7a7a8a; --card-bg: rgba(255,255,255,0.7);
+      --card-border: rgba(0,0,0,0.06); --shadow: 0 20px 50px rgba(0,0,0,0.08);
+      --nav-bg: rgba(255,255,255,0.75); --footer-color: var(--text-muted);
       --glass-blur: blur(12px);
     }
     [data-theme="dark"] {
-      --bg-page: #0b0b12;
-      --text-primary: #eaeef2;
-      --text-secondary: #b0bec5;
-      --text-muted: #6a7a8a;
-      --card-bg: rgba(255,255,255,0.05);
-      --card-border: rgba(255,255,255,0.07);
-      --shadow: 0 20px 50px rgba(0,0,0,0.6);
-      --nav-bg: rgba(20,20,30,0.8);
-      --footer-color: #4a5a6a;
-      --glass-blur: blur(16px);
+      --bg-page: #0b0b12; --text-primary: #eaeef2; --text-secondary: #b0bec5;
+      --text-muted: #6a7a8a; --card-bg: rgba(255,255,255,0.05);
+      --card-border: rgba(255,255,255,0.07); --shadow: 0 20px 50px rgba(0,0,0,0.6);
+      --nav-bg: rgba(20,20,30,0.8); --footer-color: #4a5a6a; --glass-blur: blur(16px);
     }
     * { margin:0; padding:0; box-sizing:border-box; }
     html { scroll-behavior: smooth; }
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--bg-page);
-      color: var(--text-primary);
+      background: var(--bg-page); color: var(--text-primary);
       transition: background 0.4s, color 0.3s;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      min-height: 100vh; display: flex; flex-direction: column;
     }
     .navbar {
       position: fixed; top:0; left:0; right:0; z-index:100;
-      padding: 16px 40px;
+      padding: 12px 40px;
       background: var(--nav-bg);
       backdrop-filter: var(--glass-blur);
       -webkit-backdrop-filter: var(--glass-blur);
       border-bottom: 1px solid var(--card-border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: background 0.3s;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: background 0.3s; flex-wrap: wrap; gap: 8px;
+    }
+    .navbar-left { display: flex; align-items: center; gap: 16px; }
+    .navbar .clock {
+      font-size: 14px; font-weight: 500; color: var(--text-secondary);
+      letter-spacing: 0.5px; white-space: nowrap;
     }
     .navbar .logo {
       font-size: 22px; font-weight: 700;
       background: linear-gradient(135deg, #b388ff, #82b1ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    .nav-links {
-      display: flex; gap: 28px; align-items: center;
-    }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
     .nav-links a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 15px;
-      transition: color 0.2s;
+      color: var(--text-secondary); text-decoration: none;
+      font-weight: 500; font-size: 15px; transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--text-primary); }
     .theme-toggle {
       background: none; border: 1px solid var(--card-border);
-      border-radius: 40px; padding: 6px 14px;
-      font-size: 18px; cursor: pointer;
-      background: var(--nav-bg); color: var(--text-primary);
+      border-radius: 40px; padding: 6px 14px; font-size: 18px;
+      cursor: pointer; background: var(--nav-bg); color: var(--text-primary);
       transition: 0.2s; backdrop-filter: var(--glass-blur);
     }
     .theme-toggle:hover { transform: scale(1.05); }
 
     .about-container {
-      flex: 1;
-      max-width: 880px;
-      margin: 100px auto 40px;
-      padding: 0 40px 20px;
-      width: 100%;
+      flex: 1; max-width: 880px; margin: 100px auto 40px;
+      padding: 0 40px 20px; width: 100%;
     }
     .about-card {
-      background: var(--card-bg);
-      backdrop-filter: var(--glass-blur);
+      background: var(--card-bg); backdrop-filter: var(--glass-blur);
       -webkit-backdrop-filter: var(--glass-blur);
-      border: 1px solid var(--card-border);
-      border-radius: 48px;
-      padding: 40px 44px;
-      box-shadow: var(--shadow);
+      border: 1px solid var(--card-border); border-radius: 48px;
+      padding: 40px 44px; box-shadow: var(--shadow);
       transition: background 0.3s, box-shadow 0.3s;
     }
-    .about-card h2 {
-      font-size: 28px; font-weight: 600;
-      margin-bottom: 20px;
-    }
+    .about-card h2 { font-size: 28px; font-weight: 600; margin-bottom: 20px; }
     .about-card p {
-      font-size: 17px; line-height: 1.8;
-      color: var(--text-secondary);
+      font-size: 17px; line-height: 1.8; color: var(--text-secondary);
       margin-bottom: 14px;
     }
-    .about-card a {
-      color: #82b1ff;
-      text-decoration: none;
-      font-weight: 500;
-    }
+    .about-card a { color: #82b1ff; text-decoration: none; font-weight: 500; }
     .about-card a:hover { text-decoration: underline; }
 
     .footer {
-      text-align: center;
-      padding: 18px 20px 14px;
-      font-size: 14px;
-      color: var(--footer-color);
+      text-align: center; padding: 18px 20px 14px;
+      font-size: 14px; color: var(--footer-color);
       border-top: 1px solid var(--card-border);
       background: var(--nav-bg);
       backdrop-filter: var(--glass-blur);
       -webkit-backdrop-filter: var(--glass-blur);
       transition: background 0.3s;
     }
-    .footer .stats {
-      display: flex; justify-content: center; gap: 30px;
-      margin-bottom: 6px;
-      flex-wrap: wrap;
+    .footer .legal {
+      margin-top: 0; font-size: 13px; color: var(--text-muted);
+      letter-spacing: 0.5px;
     }
-    .footer .stats span { color: var(--text-muted); }
-    .footer .stats strong { color: var(--text-primary); margin-left: 4px; }
-
     @media (max-width: 700px) {
-      .navbar { padding: 12px 20px; flex-wrap: wrap; gap: 8px; }
-      .nav-links { gap: 16px; }
+      .navbar { padding: 10px 20px; flex-direction: column; align-items: stretch; }
+      .navbar-left { justify-content: center; }
+      .nav-links { justify-content: center; gap: 16px; flex-wrap: wrap; }
       .about-container { padding: 0 18px; margin-top: 80px; }
       .about-card { padding: 28px 20px; border-radius: 32px; }
     }
@@ -145,7 +107,10 @@
 <body>
 
   <nav class="navbar">
-    <span class="logo">✦ Hnn</span>
+    <div class="navbar-left">
+      <span class="clock" id="liveClock">----年--月--日 --:--:--</span>
+      <span class="logo">✦ Hnn</span>
+    </div>
     <div class="nav-links">
       <a href="index.html">首页</a>
       <a href="about.html">关于</a>
@@ -172,31 +137,38 @@
   </div>
 
   <footer class="footer">
-    <div class="stats">
-      <span>👁️ 访问人数：<strong id="site_pv">0</strong></span>
-      <span>📄 浏览次数：<strong id="page_pv">0</strong></span>
-    </div>
-    <div>© Hnn 2026</div>
+    <div class="legal">© 2026 Hnn · 未经许可，违者必究</div>
   </footer>
 
   <script>
+    // 时钟
+    function updateClock() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth()+1).padStart(2,'0');
+      const day = String(now.getDate()).padStart(2,'0');
+      const hours = String(now.getHours()).padStart(2,'0');
+      const minutes = String(now.getMinutes()).padStart(2,'0');
+      const seconds = String(now.getSeconds()).padStart(2,'0');
+      document.getElementById('liveClock').textContent =
+        `${year}年${month}月${day}日 ${hours}:${minutes}:${seconds}`;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // 深色模式同步
     const toggle = document.getElementById('themeToggle');
     const html = document.documentElement;
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    html.setAttribute('data-theme', savedTheme);
+    toggle.textContent = savedTheme === 'dark' ? '☀️' : '🌓';
     toggle.addEventListener('click', () => {
       const cur = html.getAttribute('data-theme');
       const next = cur === 'light' ? 'dark' : 'light';
       html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
       toggle.textContent = next === 'dark' ? '☀️' : '🌓';
     });
-
-    function updateBusuanzi() {
-      const site = document.getElementById('busuanzi_value_site_pv');
-      const page = document.getElementById('busuanzi_value_page_pv');
-      if (site) document.getElementById('site_pv').textContent = site.innerHTML || '0';
-      if (page) document.getElementById('page_pv').textContent = page.innerHTML || '0';
-    }
-    setTimeout(updateBusuanzi, 2000);
-    setInterval(updateBusuanzi, 5000);
   </script>
 </body>
 </html>
